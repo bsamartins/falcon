@@ -7,17 +7,17 @@ public class Document {
 
     @Id
     private String id;
-    private String payload;
+    private Object payload;
+
+    public Document(Object payload) {
+        this.payload = payload;
+    }
 
     public String getId() {
         return id;
     }
 
-    public String getPayload() {
+    public Object getPayload() {
         return payload;
-    }
-
-    public void setPayload(String payload) {
-        this.payload = payload;
     }
 }

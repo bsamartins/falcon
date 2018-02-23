@@ -9,3 +9,14 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+  document-service:
+    image: com.bsamartins/falcon/document-service:latest
+    build: ./document-service
+    environment:
+      - spring_rabbitmq_host=rabbitmq
+      - spring_rabbitmq_port=5672
+      - spring_data_mongodb_host=db
+      - spring_data_mongodb_port=27017
+    depends_on:
+      - db
+      - rabbitmq

@@ -3,7 +3,6 @@ package com.bsamartins.falcon.documentservice.controller;
 import com.bsamartins.falcon.documentservice.config.MongoTestConfig;
 import com.bsamartins.falcon.documentservice.model.Document;
 import com.bsamartins.falcon.documentservice.repository.DocumentRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,9 +31,6 @@ public class DocumentControllerTest {
 
     @Autowired
     private ReactiveMongoTemplate reactiveMongoTemplate;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @AfterEach
     public void tearDown() {

@@ -1,0 +1,17 @@
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    org.springframework.cloud: DEBUG
+    com.bsamartins.falcon.documentservice: DEBUG
+spring:
+  cloud:
+    stream:
+      rabbit:
+        bindings:
+          documents:
+            consumer:
+              exchangeType: topic
+          documents-created:
+            producer:
+              exchangeType: fanout

@@ -1,6 +1,7 @@
 package com.bsamartins.falcon.documentservice.controller;
 
 import com.bsamartins.falcon.documentservice.config.MongoTestConfig;
+import com.bsamartins.falcon.documentservice.configuration.MessagingConfig;
 import com.bsamartins.falcon.documentservice.model.Document;
 import com.bsamartins.falcon.documentservice.repository.DocumentRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,7 +9,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.cloud.stream.reactive.ReactiveSupportAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.http.MediaType;
@@ -20,7 +23,11 @@ import java.util.Collections;
 
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = DocumentController.class)
-@ContextConfiguration(classes = MongoTestConfig.class)
+@ContextConfiguration(classes = {
+        MongoTestConfig.class,
+        MessagingConfig.class,
+        ReactiveSupportAutoConfiguration.class
+})
 @ComponentScan("com.bsamartins.falcon.documentservice")
 public class DocumentControllerTest {
 
@@ -46,8 +53,7 @@ public class DocumentControllerTest {
 
     @Test
     public void testFindAll() {
-        TestObjectPayload payload = new TestObjectPayload();
-        payload.setMessage("Hello World");
+        TestObjectPayload payload = new TestObjectPayload("Hello World");
 
         Document d0 = new Document(payload);
         Document d1 = new Document(Collections.singletonList(5));
@@ -90,12 +96,12 @@ public class DocumentControllerTest {
 
         private String message;
 
-        public String getMessage() {
-            return message;
+        public TestObjectPayload(String message) {
+            this.message = message;
         }
 
-        public void setMessage(String message) {
-            this.message = message;
+        public String getMessage() {
+            return message;
         }
     }
 }

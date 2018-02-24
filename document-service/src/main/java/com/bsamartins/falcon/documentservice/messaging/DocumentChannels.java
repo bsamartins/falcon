@@ -1,4 +1,4 @@
-package com.bsamartins.falcon.documentservice.listener;
+package com.bsamartins.falcon.documentservice.messaging;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.Output;
@@ -8,7 +8,7 @@ import org.springframework.messaging.SubscribableChannel;
 /*
  * Channel definitions for documents
  */
-public interface DocumentSink {
+public interface DocumentChannels {
 
     String SINK_NEW = "documents";
     String SINK_CREATED = "documents-created";

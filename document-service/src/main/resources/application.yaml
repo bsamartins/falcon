@@ -2,8 +2,8 @@ logging:
   level:
     root: INFO
     org.springframework: INFO
-    org.springframework.cloud: DEBUG
-    com.bsamartins.falcon.documentservice: DEBUG
+    org.springframework.cloud: INFO
+    com.bsamartins.falcon.documentservice: INFO
 spring:
   cloud:
     stream:

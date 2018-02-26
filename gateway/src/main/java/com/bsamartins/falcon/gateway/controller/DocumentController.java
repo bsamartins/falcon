@@ -3,14 +3,15 @@ package com.bsamartins.falcon.gateway.controller;
 import com.bsamartins.falcon.gateway.service.DocumentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.BodyExtractors;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 /**
@@ -19,6 +20,11 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/api/documents")
 public class DocumentController {
+
+    private static final String DOCUMENTS_BASE_URL = "/documents";
+
+    @Value("${falcon.services.documents.host}")
+    private String host;
 
     @Autowired
     private DocumentService documentService;
@@ -43,5 +49,24 @@ public class DocumentController {
         Object obj = objectMapper.readValue(input.getInputStream(), Object.class);
         return documentService.create(obj)
                 .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED).build()));
+    }
+
+    /**
+     * Proxies call to /documents endpoint
+     *
+     * @param serverResponse Server response handler
+     * @return Void Mono
+     */
+    @GetMapping
+    public Mono<Void> findAll(ServerHttpResponse serverResponse) {
+        return WebClient.builder()
+                .baseUrl(host + DOCUMENTS_BASE_URL)
+                .build()
+                .get()
+                .exchange()
+                .flatMap(response -> {
+                    serverResponse.setStatusCode(response.statusCode());
+                    return serverResponse.writeWith(response.body(BodyExtractors.toDataBuffers()));
+                });
     }
 }

@@ -9,7 +9,10 @@ spring:
           documents-created:
             producer:
               exchangeType: fanout
-
+falcon:
+  services:
+    documents:
+      host: http://localhost:8090
 logging:
   level:
     root: INFO

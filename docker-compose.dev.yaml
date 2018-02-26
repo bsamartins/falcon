@@ -1,0 +1,12 @@
+version: "3.5"
+services:
+  db:
+    ports:
+      - 27017:27017
+  rabbitmq:
+    ports:
+      - 5672:5672
+      - 15672:15672
+  document-service:
+    ports:
+      - 8090:8080

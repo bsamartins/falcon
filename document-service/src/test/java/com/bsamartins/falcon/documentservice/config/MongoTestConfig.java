@@ -14,7 +14,7 @@ public class MongoTestConfig extends AbstractReactiveMongoConfiguration {
 
     @Bean
     public GenericContainer mongoTestContainer() {
-        GenericContainer container = new GenericContainer("mongo:latest");
+        GenericContainer container = new GenericContainer("mongo:3.6");
         container.start();
         return container;
     }

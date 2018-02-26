@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div id="app" class="container">
+        <div v-for="message in messages">
+            {{ message }}
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            messages: []
+        },
+        created: function() {
+            var hostname = location.hostname;
+            var port = location.port;
+            var ws = new WebSocket("ws://" + hostname + ":" + port + "/documents");
+            var that = this;
+            ws.onmessage = function (event) {
+                console.log(event.data);
+                that.messages.push(event.data);
+            }
+        }
+    });
+</script>
+</html>

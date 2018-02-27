@@ -15,7 +15,7 @@ a gateway service and the documents service.
 
 All client requests flow through the gateway. When posting a JSON payload,
 a message is published to a RabbitMQ broker, which is picked up by a consumer and saved to
-a Mongo database. A consumer group or a worker queue was to be setup on the `documents-new` queue as to guarantee that the messages would only be delivered to a single consumer at a time. 
+a Mongo database. A consumer group or a worker queue was setup on the `documents-new` queue as to guarantee that the messages would only be delivered to a single consumer at a time. 
 
 Once the payload has been stored it's pushed to a MQ fanout exchange,
 multicasting the payload to consumers in the gateway and pushed downstream into the websocket clients.

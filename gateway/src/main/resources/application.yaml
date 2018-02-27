@@ -1,14 +1,3 @@
-spring:
-  cloud:
-    stream:
-      rabbit:
-        bindings:
-          documents:
-            consumer:
-              exchangeType: topic
-          documents-created:
-            producer:
-              exchangeType: fanout
 falcon:
   services:
     documents:

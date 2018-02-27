@@ -4,6 +4,9 @@ services:
     image: mongo:3.6
   rabbitmq:
     image: rabbitmq:3.7-management
+    volumes:
+        - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
+        - ./rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro
   document-service:
     image: com.bsamartins/falcon/document-service:latest
     build: ./document-service
